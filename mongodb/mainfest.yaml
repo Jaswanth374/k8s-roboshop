@@ -7,8 +7,6 @@ metadata:
     project: roboshop
     tier: db
     component: mongodb
-  annotations:
-    kubernetes.io/change-cause: "moving to 1.29.7"
 spec:
   replicas: 1
   selector:
