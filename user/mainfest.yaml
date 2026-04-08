@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: backend
+    component: user
+data:
+  MONGO: "true"
+  MONGO_URL: "mongodb://mongodb:27017/catalogue"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: backend
+    component: user   
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      tier: backend
+      component: user
+  template:
+    metadata:
+      name: user
+      labels:
+        project: roboshop
+        tier: backend
+        component: user      
+    spec:
+      containers:
+      - name: user
+        image: jaswanth96/user:1.0.0
+        resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+        envFrom:
+        - configMapRef:
+            name: user
+---
+apiVersion: v1
+kind: service
+metadata:
+  name: user
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: backend
+    component: user 
+spec:
+  selector:
+    project: roboshop
+    tier: backend
+    component: user  
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+
+
