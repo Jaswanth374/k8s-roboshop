@@ -38,6 +38,7 @@ spec:
       containers:
       - name: user
         image: jaswanth96/user:1.0.0
+        imagePullPolicy: Always # safe to pull everytime, there may be images with same version rebuilt and pushed
         resources:
             requests:
               cpu: "100m"
